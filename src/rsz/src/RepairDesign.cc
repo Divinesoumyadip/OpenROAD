@@ -409,7 +409,7 @@ void RepairDesign::repairDesign(
                    fanout_violations,
                    length_violations);
     }
-    estimate_parasitics_->updateParasitics();
+    estimate_parasitics_->ensureWireParasitic(drvr_pin);
   }
 
   if (!annotations_to_clean_up.empty()) {
@@ -1088,7 +1088,7 @@ void RepairDesign::repairNet(sta::Net* net,
         slew_violation = true;
         if (repairDriverSlew(corner1, drvr_pin)) {
           resize_count_++;
-          estimate_parasitics_->updateParasitics();
+          estimate_parasitics_->ensureWireParasitic(drvr_pin);
           sta_->findDelays(drvr);
           checkSlew(drvr_pin, slew1, max_slew1, slew_slack1, corner1);
         }
@@ -2363,3 +2363,4 @@ float RepairDesign::getSlewRCFactor()
 }
 
 }  // namespace rsz
+
